@@ -15,20 +15,24 @@ This was a group assignment — the write-up below covers the sections I was ind
 The target machine was a Dell Latitude E6430 ATG (hostname `DESKTOP-PM6C56D`), running Windows 10 Education, Intel i5-3340M, 16GB RAM.
 
 ![OS Information](images/os-information.png)
+*Autopsy's OS Information module confirming the machine's build, hostname, and registered owner.*
 
 Only one active local account existed on the system — `jcloudy` — confirmed by cross-checking Autopsy's OS Account module against the SAM database (`C:\Windows\System32\config\SAM`) directly.
 
 ![SAM database entry](images/sam-database.png)
+*The `jcloudy` account entry in the SAM registry hive, showing account creation and last-modified timestamps.*
 
 One detail worth calling out: the SAM database's last-modified timestamp matched the date the account was created, which lined up with the case narrative that the laptop had been wiped and handed over as a replacement device days before the account was set up.
 
 The `jcloudy` account was linked to two external identities — a Microsoft account (`jimcloudy@outlook.com`, used for OneDrive) and a Google account (`jimcloudy1@gmail.com`, used across Drive, Dropbox, Box, and AWS).
 
 ![User accounts across services](images/user-accounts.png)
+*The `jcloudy` account's linked Microsoft and Google identities, recovered from account configuration artefacts.*
 
 Installed software told its own story: Office 365 went in the same day the account was created, and within a nine-day window, four separate cloud sync clients (Box, Dropbox, Google Backup & Sync, S3 Browser) were all installed and configured to the same Google account — a pattern that only made sense once cross-referenced against the cloud distribution findings later in the report.
 
 ![Installed programs](images/installed-programs.png)
+*Installed Programs list from the registry, showing Office 365 and four cloud sync clients installed within a nine-day window.*
 
 No encryption, anonymisation, or anti-forensic tooling was found on the system.
 
@@ -41,19 +45,32 @@ Three documents formed the core of the attack planning evidence, all recovered f
 **Planning.docx** — the primary planning document, structured as a four-part checklist: Target, Supplies, Escape, Release. The venue (Cascades Library) ticked every box Jim had written down — gun-free zone, good escape route, close to an airport. Metadata showed 9 revisions and over 43 hours of total editing time, which rules out anything impulsive.
 
 ![Planning.docx search results](images/planning-docx-search-results.png)
+*`Planning.docx` located on the Desktop via Autopsy's keyword search.*
+
 ![Planning.docx text content](images/planning-docx-text-content.png)
+*The four-part planning checklist — Target, Supplies, Escape, Release — extracted from the document body.*
+
 ![Planning.docx metadata](images/planning-docx-metadata.png)
+*Document metadata showing 9 revisions and 43+ hours of total editing time.*
 
 **Operation 2nd Hand Smoke.pptx** — this one's mostly images, only 12 words of actual text across 7 slides, but it's the most damning file in the case. It walks through the entire operation visually: the event listing, a Street View shot of the library entrance, an annotated satellite map with parking and escape routes marked, driving directions to Dulles Airport, a flight search, and a hotel booking in Bali. Created and finished within 24 hours of the attack date.
 
 ![Operation 2nd Hand Smoke search results](images/operation-2nd-hand-smoke-search-results.png)
+*`Operation 2nd Hand Smoke.pptx` located via keyword search, created and finished within 24 hours of the attack date.*
+
 ![Slide 3 — annotated satellite map](images/op2hs-slide3-satellite-map.png)
+*Slide 3: a satellite map annotated with parking and escape routes around the target venue.*
+
 ![Slide 5 — flight search](images/op2hs-slide5-flight-search.png)
+*Slide 5: a Korean Air flight search departing shortly after the attack's scheduled start time.*
 
 **Cloudy thoughts (4apr).docx** — a journal entry written in a single seven-minute session the morning before the attack. Unlike the other files, it was never synced to cloud storage — it was probably written after the last sync cycle ran. One line stood out: *"I am saving everything to the cloud on several accounts. I don't want my thoughts deleted."* That single sentence ties directly into the cloud distribution findings covered next.
 
 ![Cloudy thoughts search results](images/cloudy-thoughts-search-results.png)
+*`Cloudy thoughts (4apr).docx` located on the Desktop, last edited the morning of the attack.*
+
 ![Cloudy thoughts text content](images/cloudy-thoughts-text-content.png)
+*The journal entry text, including the line referencing redundant cloud backups.*
 
 ---
 
@@ -62,14 +79,17 @@ Three documents formed the core of the attack planning evidence, all recovered f
 **AIRPORT INFORMATION.docx** was the key document here — found on the Desktop, last opened 4 April, created 30 March. What's notable is the editing time: 9 revisions, 78+ hours total. That's not a document someone wrote once and forgot about — it was actively refined right up until days before the attack.
 
 ![AIRPORT INFORMATION search results](images/airport-info-search-results.png)
+*`AIRPORT INFORMATION.docx` located on the Desktop — created 30 March, last opened 4 April.*
 
 The document compares two departure airports — Reagan National (praised for on-time departures) and Dulles (chosen for its direct flights to Indonesia). There's also a travel-time note from a completely different address near Fairfax, which hints an earlier target location may have been considered before Jim settled on Cascades Library.
 
 ![AIRPORT INFORMATION text content](images/airport-info-text-content.png)
+*Comparison notes on Reagan National vs Dulles airports, plus a travel-time note from a separate address.*
 
 An embedded screenshot inside the doc shows an American Airlines booking already at the passenger-details stage — a round trip to Bali, departing the day of the attack. Booking that far into the flow means this wasn't casual research; it was an active purchase attempt.
 
 ![American Airlines booking page](images/airport-info-aa-booking.png)
+*An embedded screenshot within the document showing an in-progress American Airlines booking to Bali.*
 
 This cross-checks cleanly against the escape route mapped out in Operation 2nd Hand Smoke.pptx (from the previous section) — driving directions to Dulles, a Korean Air flight search departing 50 minutes after the attack's scheduled start, and a Bali hotel booking. Two separate documents, two separate airlines researched, same departure date. That's not coincidence — it's contingency planning.
 
@@ -80,6 +100,7 @@ This cross-checks cleanly against the escape route mapped out in Operation 2nd H
 This was the section that tied everything together. Four cloud sync clients — Box, Dropbox, Google Backup & Sync, and OneDrive — were all installed and linked to Jim's accounts within days of each other. That's not accidental; Planning.docx says it outright: *"Save to separate locations for redundancy"* and *"Place it in the cloud for remote access."*
 
 ![Content of synced cloud folders](images/cloud-sync-folders.png)
+*Synced folder contents recovered from Box, Dropbox, Google Drive, and OneDrive client caches.*
 
 Searching for the key planning documents across each service turned up a clear pattern:
 
