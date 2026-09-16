@@ -15,11 +15,13 @@ This was a group assignment — the write-up below covers the sections I was ind
 The target machine was a Dell Latitude E6430 ATG (hostname `DESKTOP-PM6C56D`), running Windows 10 Education, Intel i5-3340M, 16GB RAM.
 
 ![OS Information](images/os-information.png)
+
 *Autopsy's OS Information module confirming the machine's build, hostname, and registered owner.*
 
 Only one active local account existed on the system — `jcloudy` — confirmed by cross-checking Autopsy's OS Account module against the SAM database (`C:\Windows\System32\config\SAM`) directly.
 
 ![SAM database entry](images/sam-database.png)
+
 *The `jcloudy` account entry in the SAM registry hive, showing account creation and last-modified timestamps.*
 
 One detail worth calling out: the SAM database's last-modified timestamp matched the date the account was created, which lined up with the case narrative that the laptop had been wiped and handed over as a replacement device days before the account was set up.
